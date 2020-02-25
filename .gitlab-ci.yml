@@ -1,0 +1,25 @@
+stages:
+  - test
+  - deploy
+
+test:
+  image: node:12.13
+  services:
+    - mongo:latest
+  script:
+    - echo $DB_CONNECTION_TEST
+    - echo $JWT_SIGNATURE_KEY
+    - npm install
+    - npm test
+  only:
+    - master
+
+deploy:
+  image: ruby:2.5.6
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APPNAME --api-key=$HEROKU_APIKEY
+  only:
+    - master

@@ -1,14 +1,14 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Thus is my first API",
+        "description": "Built by team E",
         "version": "1.0.0",
-        "title": "Blog",
+        "title": "Movie App",
         "contact": {
-            "email": "romadhona@gmail.com"
+            "email": "romadhonatatang@gmail.com"
         }
     },
-    "host": "",
+    "host": "localhost:8000",
     "basePath": "/api",
     "tags": [
         {
@@ -16,7 +16,11 @@
             "description": "Info for users API"
         },
         {
-            "name": "Post Collection",
+            "name": "Movie Collection",
+            "description": "Info for users API"
+        },
+        {
+            "name": "Review Collection",
             "description": "Info for users API"
         }
     ],
@@ -158,7 +162,7 @@
         "/post/create": {
             "post": {
                 "tags": [
-                    "Post Collection"
+                    "Movie Collection"
                 ],
                 "summary": "Create Post",
                 "description": "",
