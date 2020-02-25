@@ -1,9 +1,10 @@
 {
-  "name": "miniProject2",
+  "name": "mini-project2",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

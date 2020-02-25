@@ -7,10 +7,14 @@ const cors = require('cors')
 require('dotenv').config();
 process.log = {}
 
+const port = process.env.PORT || 8000
+
 const {
     MONGODB_URI
 } = require('./mongoConfig')
 const indexRoutes = require('./routes')
+
+app.listen(port, () => console.log(`Server Listening on Port ${port}`))
 
 app.use(cors())
 app.use(morgan("tiny"))
@@ -25,7 +29,7 @@ app.use('/api', indexRoutes);
 app.get('/', (req, res) => {
     res.status(200).json({
         status:true,
-        data: 'Welcome to ga-todolist api'
+        data: 'Welcome to ga-movie review api'
     })
 })
 
@@ -33,10 +37,9 @@ app.get('/', (req, res) => {
 mongoose.connect(MONGODB_URI, 
     {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
     .then(() => {
-        console.log(`Successfull connected to ${MONGODB_URI}`)
+        console.log(`Successfull connected to database movie-review app`)
     })
     .catch(() => {
-        console.log(`Can't connect to ${MONGODB_URI}`);
         process.exit()
     });
 
