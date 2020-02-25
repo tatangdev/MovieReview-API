@@ -6,6 +6,9 @@ const morgan = require('morgan');
 const cors = require('cors')
 require('dotenv').config();
 process.log = {}
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+ 
 
 const port = process.env.PORT || 8000
 
@@ -32,6 +35,8 @@ app.get('/', (req, res) => {
         data: 'Welcome to ga-movie review api'
     })
 })
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // fireup the server
 mongoose.connect(MONGODB_URI, 

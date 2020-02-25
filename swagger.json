@@ -1,0 +1,308 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Thus is my first API",
+        "version": "1.0.0",
+        "title": "Blog",
+        "contact": {
+            "email": "romadhona@gmail.com"
+        }
+    },
+    "host": "",
+    "basePath": "/api",
+    "tags": [
+        {
+            "name": "User Collection",
+            "description": "Info for users API"
+        },
+        {
+            "name": "Post Collection",
+            "description": "Info for users API"
+        }
+    ],
+    "paths": {
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "User Collection"
+                ],
+                "summary": "logged in to api",
+                "description": "",
+                "operationId": "updatePet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succesfully logged in",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "data": {
+                                    "type": "string",
+                                    "example": "jwt.token"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Succesfully logged in",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "data": {
+                                    "type": "string",
+                                    "example": "wrong"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Validation exception"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "tags": [
+                    "User Collection"
+                ],
+                "summary": "register new user",
+                "description": "",
+                "operationId": "Login User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserRegister"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succesfully logged in",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "data": {
+                                    "type": "string",
+                                    "example": "jwt.token"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Succesfully logged in",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "data": {
+                                    "type": "string",
+                                    "example": "wrong"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Validation exception"
+                    }
+                }
+            }
+        },
+        "/post/create": {
+            "post": {
+                "tags": [
+                    "Post Collection"
+                ],
+                "summary": "Create Post",
+                "description": "",
+                "operationId": "Create",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/createPost"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succesfully logged in",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "data": {
+                                    "type": "string",
+                                    "example": "jwt.token"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Succesfully logged in",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "data": {
+                                    "type": "string",
+                                    "example": "wrong"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Validation exception"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Authorization": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "definitions": {
+        "UserLogin": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "test@mail.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "password123"
+                }
+            }
+        },
+        "UserRegister": {
+            "type": "object",
+            "required": [
+                "fisrt_name",
+                "last_name",
+                "email",
+                "password",
+                "password_confirmation"
+            ],
+            "properties": {
+                "first_name": {
+                    "type": "string",
+                    "example": "tatang"
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "romadhona"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "mail@gmail.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "pass123"
+                },
+                "password_confirmation": {
+                    "type": "string",
+                    "example": "pass123"
+                }
+            }
+        },
+        "createPost": {
+            "type": "object",
+            "required": [
+                "title",
+                "body"
+            ],
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Backend repository",
+        "url": "https://gitlab.com/romadhonatatang/miniproject-2"
+    }
+}
