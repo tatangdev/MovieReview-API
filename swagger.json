@@ -8,7 +8,7 @@
       "email": "romadhonatatang@gmail.com"
     }
   },
-  "host": "localhost:8000",
+  "host": "",
   "basePath": "/api",
   "tags": [
     {
@@ -417,7 +417,7 @@
       }
     },
     "/user/updateImage": {
-      "post": {
+      "put": {
         "tags": [
           "User Collection"
         ],
@@ -480,7 +480,7 @@
       }
     },
     "/user/updateProfile": {
-      "post": {
+      "put": {
         "tags": [
           "User Collection"
         ],
