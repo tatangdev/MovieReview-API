@@ -130,7 +130,7 @@ exports.forgot = (req, res) => {
                 subject: 'Reset password',
                 html: `
           <p> Hai, ${data.name}. segera ganti password anda dengan menekan tombol dibawah.</p>
-          <a href="${process.env.BASE_URL}/api/user/reset/${token}">Click here</a>`
+          <a href="${process.env.BASE_URL}/api/user/resetPassword/${token}">Click here</a>`
             })
         })
         .then(() => {

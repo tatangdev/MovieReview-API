@@ -14,7 +14,7 @@ router.post('/login', user.login)
 /* forgot */
 router.post('/forgotPassword', user.forgot)
 /* reset */
-router.post('/resetPassword/:token', user.reset)
+router.put('/resetPassword/:token', user.reset)
 /* upload photo */
 router.put('/updateImage', validate, upload, user.upload)
 /* update profile */
