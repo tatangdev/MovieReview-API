@@ -1,312 +1,645 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "Built by team E",
-        "version": "1.0.0",
-        "title": "Movie App",
-        "contact": {
-            "email": "romadhonatatang@gmail.com"
-        }
-    },
-    "host": "",
-    "basePath": "/api",
-    "tags": [
-        {
-            "name": "User Collection",
-            "description": "Info for users API"
-        },
-        {
-            "name": "Movie Collection",
-            "description": "Info for users API"
-        },
-        {
-            "name": "Review Collection",
-            "description": "Info for users API"
-        }
-    ],
-    "paths": {
-        "/users/login": {
-            "post": {
-                "tags": [
-                    "User Collection"
-                ],
-                "summary": "logged in to api",
-                "description": "",
-                "operationId": "updatePet",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/UserLogin"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Succesfully logged in",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "status": {
-                                    "type": "boolean",
-                                    "example": true
-                                },
-                                "data": {
-                                    "type": "string",
-                                    "example": "jwt.token"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID supplied"
-                    },
-                    "404": {
-                        "description": "Succesfully logged in",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "status": {
-                                    "type": "boolean",
-                                    "example": false
-                                },
-                                "data": {
-                                    "type": "string",
-                                    "example": "wrong"
-                                }
-                            }
-                        }
-                    },
-                    "405": {
-                        "description": "Validation exception"
-                    }
-                }
-            }
-        },
-        "/users": {
-            "post": {
-                "tags": [
-                    "User Collection"
-                ],
-                "summary": "register new user",
-                "description": "",
-                "operationId": "Login User",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/UserRegister"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Succesfully logged in",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "status": {
-                                    "type": "boolean",
-                                    "example": true
-                                },
-                                "data": {
-                                    "type": "string",
-                                    "example": "jwt.token"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID supplied"
-                    },
-                    "404": {
-                        "description": "Succesfully logged in",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "status": {
-                                    "type": "boolean",
-                                    "example": false
-                                },
-                                "data": {
-                                    "type": "string",
-                                    "example": "wrong"
-                                }
-                            }
-                        }
-                    },
-                    "405": {
-                        "description": "Validation exception"
-                    }
-                }
-            }
-        },
-        "/post/create": {
-            "post": {
-                "tags": [
-                    "Movie Collection"
-                ],
-                "summary": "Create Post",
-                "description": "",
-                "operationId": "Create",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/createPost"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Succesfully logged in",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "status": {
-                                    "type": "boolean",
-                                    "example": true
-                                },
-                                "data": {
-                                    "type": "string",
-                                    "example": "jwt.token"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID supplied"
-                    },
-                    "404": {
-                        "description": "Succesfully logged in",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "status": {
-                                    "type": "boolean",
-                                    "example": false
-                                },
-                                "data": {
-                                    "type": "string",
-                                    "example": "wrong"
-                                }
-                            }
-                        }
-                    },
-                    "405": {
-                        "description": "Validation exception"
-                    }
-                },
-                "security": [
-                    {
-                        "Authorization": []
-                    }
-                ]
-            }
-        }
-    },
-    "securityDefinitions": {
-        "Authorization": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
-        }
-    },
-    "definitions": {
-        "UserLogin": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "example": "test@mail.com"
-                },
-                "password": {
-                    "type": "string",
-                    "example": "password123"
-                }
-            }
-        },
-        "UserRegister": {
-            "type": "object",
-            "required": [
-                "fisrt_name",
-                "last_name",
-                "email",
-                "password",
-                "password_confirmation"
-            ],
-            "properties": {
-                "first_name": {
-                    "type": "string",
-                    "example": "tatang"
-                },
-                "last_name": {
-                    "type": "string",
-                    "example": "romadhona"
-                },
-                "email": {
-                    "type": "string",
-                    "example": "mail@gmail.com"
-                },
-                "password": {
-                    "type": "string",
-                    "example": "pass123"
-                },
-                "password_confirmation": {
-                    "type": "string",
-                    "example": "pass123"
-                }
-            }
-        },
-        "createPost": {
-            "type": "object",
-            "required": [
-                "title",
-                "body"
-            ],
-            "properties": {
-                "title": {
-                    "type": "string"
-                },
-                "body": {
-                    "type": "string"
-                }
-            }
-        }
-    },
-    "externalDocs": {
-        "description": "Backend repository",
-        "url": "https://gitlab.com/romadhonatatang/miniproject-2"
+  "swagger": "2.0",
+  "info": {
+    "description": "Built by team E",
+    "version": "1.0.0",
+    "title": "Movie App",
+    "contact": {
+      "email": "romadhonatatang@gmail.com"
     }
+  },
+  "host": "localhost:8000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "User Collection",
+      "description": "Info for users API"
+    },
+    {
+      "name": "Movie Collection",
+      "description": "Info for users API"
+    },
+    {
+      "name": "Review Collection",
+      "description": "Info for users API"
+    }
+  ],
+  "paths": {
+    "/user/register": {
+      "post": {
+        "tags": [
+          "User Collection"
+        ],
+        "summary": "create new user",
+        "description": "",
+        "operationId": "createUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "user created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/register/admin": {
+      "post": {
+        "tags": [
+          "User Collection"
+        ],
+        "summary": "create new admin",
+        "description": "",
+        "operationId": "createAdmin",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "user created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/activation/{token}": {
+      "get": {
+        "tags": [
+          "User Collection"
+        ],
+        "summary": "Activate user",
+        "description": "",
+        "operationId": "activateUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "token of user",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User Collection"
+        ],
+        "summary": "Login user",
+        "description": "",
+        "operationId": "loginUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/loginUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/forgotPassword": {
+      "post": {
+        "tags": [
+          "User Collection"
+        ],
+        "summary": "request token to reset password",
+        "description": "",
+        "operationId": "forgotPassword",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/forgotPassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the email registered, we will sent you email",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/resetPassword/{token}": {
+      "put": {
+        "tags": [
+          "User Collection"
+        ],
+        "summary": "change password",
+        "description": "",
+        "operationId": "resetPassword",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "token of user",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/resetPassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "password changed",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/updateImage": {
+      "post": {
+        "tags": [
+          "User Collection"
+        ],
+        "summary": "cahnge picture profile",
+        "description": "",
+        "operationId": "uploadFile",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "image",
+            "in": "formData",
+            "description": "file to upload",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the email registered, we will sent you email",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/updateProfile": {
+      "post": {
+        "tags": [
+          "User Collection"
+        ],
+        "summary": "Update user profile",
+        "description": "",
+        "operationId": "updateProfile",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateProfile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "profile updated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Authorization": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "createUser": {
+      "type": "object",
+      "required": [
+        "name",
+        "email",
+        "password",
+        "password_confirmation"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Tatang Romadhona"
+        },
+        "email": {
+          "type": "string",
+          "example": "romadhonatatang@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "aandeani"
+        },
+        "password_confirmation": {
+          "type": "string",
+          "example": "aandeani"
+        }
+      }
+    },
+    "loginUser": {
+      "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "romadhonatatang@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "aandeani"
+        }
+      }
+    },
+    "forgotPassword": {
+      "type": "object",
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "romadhonatatang@gmail.com"
+        }
+      }
+    },
+    "resetPassword": {
+      "type": "object",
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "password": {
+          "type": "string",
+          "example": "aandeani"
+        },
+        "password_confirmation": {
+          "type": "string",
+          "example": "aandeani"
+        }
+      }
+    },
+    "updateProfile": {
+      "type": "object",
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Tatang Romadhona"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Backend repository",
+    "url": "https://gitlab.com/romadhonatatang/miniproject-2"
+  }
 }

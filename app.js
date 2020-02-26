@@ -8,7 +8,6 @@ require('dotenv').config();
 process.log = {}
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
- 
 
 const port = process.env.PORT || 8000
 
@@ -31,7 +30,7 @@ app.use('/api', indexRoutes);
 // root endpoint
 app.get('/', (req, res) => {
     res.status(200).json({
-        status:true,
+        status: true,
         data: 'Welcome to ga-movie review api'
     })
 })
@@ -39,8 +38,8 @@ app.get('/', (req, res) => {
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // fireup the server
-mongoose.connect(MONGODB_URI, 
-    {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+mongoose.connect(MONGODB_URI,
+    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false })
     .then(() => {
         console.log(`Successfull connected to database movie-review app`)
     })
