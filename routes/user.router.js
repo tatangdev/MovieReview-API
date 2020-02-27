@@ -4,20 +4,22 @@ const upload = require('../services/uploader')
 const validate = require('../middlewares/authenticate')
 const user = require('../controllers/user.controller');
 
-/* register */
+// register
 router.post('/register', user.userRegister)
 router.post('/register/admin', user.adminRegister)
-/* activation */
+// activation
 router.get('/activation/:token', user.activation)
-/* login */
+// login
 router.post('/login', user.login)
-/* forgot */
+// forgot
 router.post('/forgotPassword', user.forgot)
-/* reset */
+// reset
 router.put('/resetPassword/:token', user.reset)
-/* upload photo */
+// upload photo
 router.put('/updateImage', validate, upload, user.upload)
-/* update profile */
+// update profile
 router.put('/updateProfile', validate, user.editProfile)
+// get user profile
+router.get('/userProfile', validate, user.userProfile)
 
 module.exports = router;

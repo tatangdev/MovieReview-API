@@ -70,7 +70,7 @@
             }
           },
           "422": {
-            "description": "error",
+            "description": "ERROR",
             "schema": {
               "type": "object",
               "properties": {
@@ -81,7 +81,7 @@
                 "message": {
                   "type": "string"
                 },
-                "data": {
+                "errors": {
                   "type": "object"
                 }
               }
@@ -135,7 +135,7 @@
             }
           },
           "422": {
-            "description": "error",
+            "description": "ERROR",
             "schema": {
               "type": "object",
               "properties": {
@@ -146,7 +146,7 @@
                 "message": {
                   "type": "string"
                 },
-                "data": {
+                "errors": {
                   "type": "object"
                 }
               }
@@ -196,7 +196,7 @@
             }
           },
           "422": {
-            "description": "error",
+            "description": "ERROR",
             "schema": {
               "type": "object",
               "properties": {
@@ -207,7 +207,7 @@
                 "message": {
                   "type": "string"
                 },
-                "data": {
+                "errors": {
                   "type": "object"
                 }
               }
@@ -261,7 +261,7 @@
             }
           },
           "422": {
-            "description": "error",
+            "description": "ERROR",
             "schema": {
               "type": "object",
               "properties": {
@@ -272,7 +272,7 @@
                 "message": {
                   "type": "string"
                 },
-                "data": {
+                "errors": {
                   "type": "object"
                 }
               }
@@ -326,7 +326,7 @@
             }
           },
           "422": {
-            "description": "error",
+            "description": "ERROR",
             "schema": {
               "type": "object",
               "properties": {
@@ -337,7 +337,7 @@
                 "message": {
                   "type": "string"
                 },
-                "data": {
+                "errors": {
                   "type": "object"
                 }
               }
@@ -396,7 +396,7 @@
             }
           },
           "422": {
-            "description": "error",
+            "description": "ERROR",
             "schema": {
               "type": "object",
               "properties": {
@@ -407,7 +407,7 @@
                 "message": {
                   "type": "string"
                 },
-                "data": {
+                "errors": {
                   "type": "object"
                 }
               }
@@ -421,7 +421,7 @@
         "tags": [
           "User Collection"
         ],
-        "summary": "cahnge picture profile",
+        "summary": "change picture profile",
         "description": "",
         "operationId": "uploadFile",
         "consumes": [
@@ -459,7 +459,7 @@
             }
           },
           "422": {
-            "description": "error",
+            "description": "ERROR",
             "schema": {
               "type": "object",
               "properties": {
@@ -470,13 +470,18 @@
                 "message": {
                   "type": "string"
                 },
-                "data": {
+                "errors": {
                   "type": "object"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/user/updateProfile": {
@@ -524,7 +529,7 @@
             }
           },
           "422": {
-            "description": "error",
+            "description": "ERROR",
             "schema": {
               "type": "object",
               "properties": {
@@ -535,13 +540,71 @@
                 "message": {
                   "type": "string"
                 },
-                "data": {
+                "errors": {
                   "type": "object"
                 }
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/user/userProfile": {
+      "get": {
+        "tags": [
+          "User Collection"
+        ],
+        "summary": "Get user data",
+        "description": "",
+        "operationId": "userProfile",
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     }
   },

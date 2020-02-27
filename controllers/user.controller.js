@@ -159,6 +159,7 @@ exports.reset = (req, res) => {
         })
 }
 
+// update picture profile
 exports.upload = (req, res) => {
     imagekitInstance
         .upload({
@@ -190,5 +191,12 @@ exports.editProfile = (req, res) => {
         .select(['-password'])
         .then(data => success(res, 'sukses update', { ...data._doc, name: req.body.name }, 200))
         .catch(err => failedMessage(res, err, 422))
+}
 
+// user profile // done
+exports.userProfile = (req, res) => {
+    let user = jwt.verify(req.headers.authorization, process.env.SECRET_KEY)
+    User.findOne({ _id: user._id })
+        .then(data => success(res, 'success get user profile', data, 200))
+        .catch(err => failed(res, 'failed get user profile', err, 422))
 }
