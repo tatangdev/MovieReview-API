@@ -9,14 +9,10 @@ process.log = {}
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
-const port = process.env.PORT || 8000
-
 const {
     MONGODB_URI
 } = require('./mongoConfig')
 const indexRoutes = require('./routes')
-
-app.listen(port, () => console.log(`Server Listening on Port ${port}`))
 
 app.use(cors())
 app.use(morgan("tiny"))

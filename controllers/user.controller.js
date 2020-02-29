@@ -33,7 +33,10 @@ exports.userRegister = (req, res) => {
                 <p> Hei, ${data.name}. Please click on the link below to verify your email and continue the registration process.</p>
                 <a href="${process.env.BASE_URL}/api/user/activation/${token}">Click here</a>`
             })
-            return data
+            return {
+                ...data._doc,
+                token
+            }
         })
         .then(result => {
             success(res, `A verification link has been sent to your email account. Please click on the link that has just been sent to your email account to verify your email and continue the registration process.`, result, 201)
@@ -90,7 +93,6 @@ exports.login = (req, res) => {
         .then(data => {
             if (!data) return failedMessage(
                 res, `That email and password combination didn't work. Try again.`, 403)
-
             if (!bcrypt.compareSync(req.body.password, data.password)) return failedMessage(
                 res, `That email and password combination didn't work. Try again.`, 403)
 
@@ -113,9 +115,7 @@ exports.login = (req, res) => {
 exports.forgot = (req, res) => {
     User.findOne({ email: req.body.email })
         .then(data => {
-
             let token = jwt.sign({ _id: data._id }, process.env.SECRET_KEY)
-
             return mailer.send({
                 from: 'no-reply@MovieApp.com',
                 to: data.email,
