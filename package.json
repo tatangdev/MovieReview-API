@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./bin/www.js",
-    "test": "mocha __test__/* --timeout 5000 --exit"
+    "test": "mocha __test__/* --timeout 5000"
   },
   "bin": {
     "mini-project2": "www.js"

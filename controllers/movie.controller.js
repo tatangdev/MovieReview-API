@@ -12,8 +12,8 @@ const imagekitInstance = new Imagekit({
 
 exports.get = (req, res) => {
     let page = parseInt(req.query.page)
-
-    Movie.paginate({}, { page, limit: 10 })
+    "despicable me 2"
+    Movie.paginate({ title: "despicable me"}, { page, limit: 10 })
         .then(data => {
             success(res, 'success', data, 201)
         })

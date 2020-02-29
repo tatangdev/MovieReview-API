@@ -11,9 +11,7 @@ chai.use(chaiHttp);
 var testName = 'Reza Nirvana Pratama';
 var testEmail = 'ezanirvana@gmail.com';
 var testPassword = bcrypt.hashSync('12345', 10);
-var errorPassword = '12344';
 var token;
-var verifyToken;
 
 describe('USER', () => {
     before(done => {
@@ -71,24 +69,41 @@ describe('USER', () => {
                 done()
             })
     });
-//     it('should not success login with existed user', function () {
-//         chai
-//             .request(app)
-//             .post('/api/user/login')
-//             .send({
-//                 email: testEmail,
-//                 password: errorPassword
-//             })
-//             .end(function (err, res) {
-//                 expected(res.status).eq(422)
-//             })
-//     });
-//     it('forgot password', function () {
-//         chai
-//             .request(app)
-//             .post('/api/user/forgotPassword')
-//             .end(function (err, res) {
-//                 expected(res.status).eq(200)
-//             })
-//     })
+    it('should not success login with not existing user', done => {
+        chai
+            .request(app)
+            .post('/api/user/login')
+            .send({
+                email: 'testEmail',
+                password: 'errorPassword'
+            })
+            .end(function (err, res) {
+                expected(res.status).eq(403)
+                done()
+            })
+    });
+    it('forgot password 2', done => {
+        chai.request(app)
+            .post('/api/user/forgotPassword')
+            .send({
+                email: testEmail
+            })
+            .end((err, res) => {
+                token = res.body.data;
+                expected(res.status).eql(200)
+                done()
+            })
+    });
+    it('reset password', done => {
+        chai.request(app)
+        .post(`/api/user/resetPassword/${token}`)
+        .send({
+            password: 'newpassword'
+        })
+        .end((err, res) => {
+            
+            expected(res.status).eql(201)
+            done;
+        })
+    })
 })
