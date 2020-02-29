@@ -1,12 +1,15 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const mongoosePaginate = require('mongoose-paginate-v2')
 
 const movieSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true
+
     },
-    releaseYears: {
+    releaseYear: {
         type: Number
     },
     genre: {
@@ -29,5 +32,5 @@ const movieSchema = new Schema({
 }, {
     timestamps: true
 })
-
+movieSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Movie', movieSchema)

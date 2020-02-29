@@ -441,7 +441,7 @@
         ],
         "responses": {
           "200": {
-            "description": "if the email registered, we will sent you email",
+            "description": "success",
             "schema": {
               "type": "object",
               "properties": {
@@ -606,6 +606,451 @@
           }
         ]
       }
+    },
+    "/movie/addMovies": {
+      "post": {
+        "tags": [
+          "Movie Collection"
+        ],
+        "summary": "Add movie to the collections",
+        "description": "",
+        "operationId": "addMovies",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "releaseYears",
+            "in": "formData",
+            "description": "",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "genre",
+            "in": "formData",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "duration",
+            "in": "formData",
+            "description": "",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "description": "",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "trailer",
+            "in": "formData",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "synopsis",
+            "in": "formData",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/movie?page=1": {
+      "get": {
+        "tags": [
+          "Movie Collection"
+        ],
+        "summary": "Get movie",
+        "description": "",
+        "operationId": "getMovie",
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/movie/{movieId}/updatePoster": {
+      "put": {
+        "tags": [
+          "Movie Collection"
+        ],
+        "summary": "update movie poster",
+        "description": "",
+        "operationId": "updatePoster",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "description": "movie id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "description": "file to upload",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/movie/{movieId}": {
+      "get": {
+        "tags": [
+          "Movie Collection"
+        ],
+        "summary": "Get movie details",
+        "description": "",
+        "operationId": "movieDetails",
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "description": "movie id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the email registered, we will sent you email",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Movie Collection"
+        ],
+        "summary": "Update movie details",
+        "description": "",
+        "operationId": "updateMovie",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "description": "movie id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "You can update even if only one parameter",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/movies"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Movie Collection"
+        ],
+        "summary": "delete movies",
+        "description": "",
+        "operationId": "deleteMovie",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "description": "movie id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the email registered, we will sent you email",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
     }
   },
   "securityDefinitions": {
@@ -697,6 +1142,39 @@
         "name": {
           "type": "string",
           "example": "Tatang Romadhona"
+        }
+      }
+    },
+    "movies": {
+      "type": "object",
+      "required": [
+        "title",
+        "synopsis"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "A Star Is Born"
+        },
+        "releaseYears": {
+          "type": "number",
+          "example": 2018
+        },
+        "genre": {
+          "type": "string",
+          "example": "Drama"
+        },
+        "duration": {
+          "type": "number",
+          "example": 134
+        },
+        "trailer": {
+          "type": "string",
+          "example": "https://www.youtube.com/watch?v=nSbzyEJ8X9E"
+        },
+        "synopsis": {
+          "type": "string",
+          "example": "A musician helps a young singer find fame as age and alcoholism send his own career into a downward spiral."
         }
       }
     }

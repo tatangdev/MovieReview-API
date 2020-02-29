@@ -88,33 +88,25 @@ exports.activation = (req, res) => {
 exports.login = (req, res) => {
     User.findOne({ email: req.body.email })
         .then(data => {
-            // check data availability
             if (!data) return failedMessage(
                 res, `That email and password combination didn't work. Try again.`, 403)
 
-            // check password
             if (!bcrypt.compareSync(req.body.password, data.password)) return failedMessage(
                 res, `That email and password combination didn't work. Try again.`, 403)
 
-            // check verified status
             if (!data.isConfirmed) return failedMessage(
                 res, 'Email isn\'t verified, please check your email!', 403)
 
-            // generate token
-            let token = jwt.sign({ _id: data._id }, process.env.SECRET_KEY)
-
-            // success respon
             success(res, 'Successfuly login', {
                 _id: data._id,
+                privilege: data.privilege,
                 name: data.name,
                 email: data.email,
                 image: data.image,
-                token
+                token: jwt.sign({ _id: data._id, privilege: data.privilege }, process.env.SECRET_KEY)
             }, 200)
         })
-        .catch(err => {
-            failedMessage(res, err, 422)
-        })
+        .catch(err => failedMessage(res, err, 422))
 }
 
 // request link to change password
@@ -148,15 +140,9 @@ exports.reset = (req, res) => {
     if (req.body.password != req.body.password_confirmation) return failedMessage(
         res, 'Password doesn\'t match!', 403)
 
-    let password = bcrypt.hashSync(req.body.password)
-
-    User.findOneAndUpdate({ _id: user._id }, { password: password })
-        .then(data => {
-            success(res, 'successfully changed password', data, 201)
-        })
-        .catch(err => {
-            failedMessage(res, err, 422)
-        })
+    User.findOneAndUpdate({ _id: user._id }, { password: bcrypt.hashSync(req.body.password) })
+        .then(data => success(res, 'successfully changed password', data, 201))
+        .catch(err => failedMessage(res, err, 422))
 }
 
 // update picture profile
@@ -178,7 +164,7 @@ exports.upload = (req, res) => {
         })
         .catch(err => {
             res.status(422).json({
-                // status:false,
+                status:false,
                 errors: err
             })
         })
