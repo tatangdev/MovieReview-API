@@ -116,7 +116,7 @@ exports.forgot = (req, res) => {
     User.findOne({ email: req.body.email })
         .then(data => {
             let token = jwt.sign({ _id: data._id }, process.env.SECRET_KEY)
-            return mailer.send({
+            mailer.send({
                 from: 'no-reply@MovieApp.com',
                 to: data.email,
                 subject: 'Reset password',
@@ -124,9 +124,10 @@ exports.forgot = (req, res) => {
           <p> Hai, ${data.name}. segera ganti password anda dengan menekan tombol dibawah.</p>
           <a href="${process.env.BASE_URL}/api/user/resetPassword/${token}">Click here</a>`
             })
+            return token
         })
-        .then(() => {
-            successMessage(res, `If a MovieApp account for ${req.body.email} exists, you will receive an email with a link to reset your password.`, 200)
+        .then(result => {
+            success(res, `If a MovieApp account for ${req.body.email} exists, you will receive an email with a link to reset your password.`, result, 200)
         })
         .catch(() => {
             successMessage(res, `If a MovieApp account for ${req.body.email} exists, you will receive an email with a link to reset your password.`, 200)
@@ -164,7 +165,7 @@ exports.upload = (req, res) => {
         })
         .catch(err => {
             res.status(422).json({
-                status:false,
+                status: false,
                 errors: err
             })
         })
