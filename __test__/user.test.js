@@ -101,7 +101,9 @@ describe('USER', () => {
             password: 'newpassword'
         })
         .end((err, res) => {
-            
+            token = res.body.data;
+            password = res.body.password;
+            console.log(password)
             expected(res.status).eql(201)
             done;
         })
