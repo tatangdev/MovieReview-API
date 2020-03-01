@@ -1,7 +1,7 @@
-const Movie = require('../models/movie.schema')
+const Movie = require('../models/movie.schema');
 const jwt = require('jsonwebtoken');
 const { success, failed, successMessage, failedMessage } = require('../helpers/response');
-const Imagekit = require('imagekit')
+const Imagekit = require('imagekit');
 
 const imagekitInstance = new Imagekit({
     publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
