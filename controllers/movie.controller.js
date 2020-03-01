@@ -12,8 +12,7 @@ const imagekitInstance = new Imagekit({
 
 exports.get = (req, res) => {
     let page = parseInt(req.query.page)
-    "despicable me 2"
-    Movie.paginate({ title: "despicable me"}, { page, limit: 10 })
+    Movie.paginate({ page, limit: 10 })
         .then(data => {
             success(res, 'success', data, 201)
         })
@@ -33,8 +32,6 @@ exports.create = (req, res) => {
         trailer: req.body.trailer,
         synopsis: req.body.synopsis
     })
-
-    console.log(movie);
 
     imagekitInstance
         .upload({

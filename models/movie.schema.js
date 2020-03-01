@@ -7,7 +7,6 @@ const movieSchema = new Schema({
         type: String,
         required: true,
         unique: true
-
     },
     releaseYear: {
         type: Number
