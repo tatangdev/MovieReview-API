@@ -1,8 +1,7 @@
-const Movie = require('../models/movie.schema')
-const User = require('../models/user.schema')
+const Movie = require('../models/movie.schema');
 const jwt = require('jsonwebtoken');
 const { success, failed, successMessage, failedMessage } = require('../helpers/response');
-const Imagekit = require('imagekit')
+const Imagekit = require('imagekit');
 
 const imagekitInstance = new Imagekit({
     publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
@@ -12,7 +11,7 @@ const imagekitInstance = new Imagekit({
 
 exports.get = (req, res) => {
     let page = parseInt(req.query.page)
-    Movie.paginate({ page, limit: 10 })
+    Movie.paginate({ }, { page, limit: 10 })
         .then(data => {
             success(res, 'success', data, 201)
         })
