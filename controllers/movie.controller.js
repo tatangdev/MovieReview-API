@@ -12,7 +12,7 @@ const imagekitInstance = new Imagekit({
 
 exports.get = (req, res) => {
     let page = parseInt(req.query.page)
-    Movie.paginate({ page, limit: 10 })
+    Movie.paginate({title}, { page, limit: 10 })
         .then(data => {
             success(res, 'success', data, 201)
         })
