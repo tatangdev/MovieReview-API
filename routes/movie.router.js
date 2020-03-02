@@ -6,9 +6,9 @@ const validate = require('../middlewares/authenticate')
 
 router.get('/', movie.get)
 router.post('/addMovies', validate, upload, movie.create)
-router.put('/:movieId/updatePoster', validate, upload, movie.updateImage)
-router.get('/:movieId', validate, movie.movieDetails)
-router.put('/:movieId', validate, movie.update)
-router.delete('/:movieId', validate, movie.delete)
+router.put('/:title/updatePoster', validate, upload, movie.updateImage)
+router.get('/:title', movie.movieDetails)
+router.put('/:title', validate, movie.update)
+router.delete('/:title', validate, movie.delete)
 
 module.exports = router;

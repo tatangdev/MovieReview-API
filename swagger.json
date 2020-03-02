@@ -717,7 +717,7 @@
         ]
       }
     },
-    "/movie?page=1": {
+    "/movie": {
       "get": {
         "tags": [
           "Movie Collection"
@@ -770,7 +770,7 @@
         ]
       }
     },
-    "/movie/{movieId}/updatePoster": {
+    "/movie/{movie}/updatePoster": {
       "put": {
         "tags": [
           "Movie Collection"
@@ -786,9 +786,9 @@
         ],
         "parameters": [
           {
-            "name": "movieId",
+            "name": "movie",
             "in": "path",
-            "description": "movie id",
+            "description": "movie title",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -846,7 +846,7 @@
         ]
       }
     },
-    "/movie/{movieId}": {
+    "/movie/{movie}": {
       "get": {
         "tags": [
           "Movie Collection"
@@ -856,9 +856,9 @@
         "operationId": "movieDetails",
         "parameters": [
           {
-            "name": "movieId",
+            "name": "movie",
             "in": "path",
-            "description": "movie id",
+            "description": "movie title",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -923,9 +923,9 @@
         ],
         "parameters": [
           {
-            "name": "movieId",
+            "name": "movie",
             "in": "path",
-            "description": "movie id",
+            "description": "movie title",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -999,9 +999,9 @@
         ],
         "parameters": [
           {
-            "name": "movieId",
+            "name": "movie",
             "in": "path",
-            "description": "movie id",
+            "description": "movie title",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -1010,6 +1010,288 @@
         "responses": {
           "200": {
             "description": "if the email registered, we will sent you email",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/review/{movie}": {
+      "post": {
+        "tags": [
+          "Review Collection"
+        ],
+        "summary": "Create review",
+        "description": "",
+        "operationId": "create review",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "movie",
+            "in": "path",
+            "description": "movie tile",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "You can update even if only one parameter",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/review"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Review Collection"
+        ],
+        "summary": "Update review",
+        "description": "",
+        "operationId": "update review",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "movie",
+            "in": "path",
+            "description": "movie tile",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "You can update even if only one parameter",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/review"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Review Collection"
+        ],
+        "summary": "Get review by movie",
+        "description": "",
+        "operationId": "get review",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "movie",
+            "description": "movie tile",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Review Collection"
+        ],
+        "summary": "Delete review",
+        "description": "",
+        "operationId": "delete review",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "movie",
+            "in": "path",
+            "description": "movie tile",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
             "schema": {
               "type": "object",
               "properties": {
@@ -1177,6 +1459,32 @@
           "example": "A musician helps a young singer find fame as age and alcoholism send his own career into a downward spiral."
         }
       }
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "rate",
+        "title",
+        "description"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Surprised at high reviews"
+        },
+        "rate": {
+          "type": "number",
+          "example": 7
+        },
+        "description": {
+          "type": "string",
+          "example": "I was looking forward to this due to the high ratings and that I like the lead actors. However felt it was a poor story, fairly predictable, slightly cringeworthy acting, I kept hoping it would improve but was disappointed"
+        }
+      }
+    },
+    "movieTitle": {
+      "type": "string",
+      "example": "a_star_is_born"
     }
   },
   "externalDocs": {

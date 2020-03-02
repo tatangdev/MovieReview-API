@@ -3,26 +3,31 @@ const Schema = mongoose.Schema
 const mongoosePaginate = require('mongoose-paginate-v2')
 
 const reviewSchema = new Schema({
-    movie:{
-        type: Schema.Types.ObjectId,
-        ref: 'Movie',
+    movie: {
+        type: String,
         required: true
     },
-    owner:{
+    owner: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required:true
+        required: true
     },
     rate: {
         type: Number,
-        default: 0,
-        required:true
+        required: true,
+        min: 1,
+        max: 10
     },
-    review:{
-        type: String
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: true
 })
 reviewSchema.plugin(mongoosePaginate);
-module.exports = mongoose.model('Review', reviewSchema)
+module.exports = mongoose.model('Review', reviewSchema) 

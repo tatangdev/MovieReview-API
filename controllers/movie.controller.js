@@ -9,9 +9,35 @@ const imagekitInstance = new Imagekit({
     urlEndpoint: `https://ik.imagekit.io/${process.env.IMAGEKIT_ID}`
 });
 
+// capital letter
+function capitalSpace(str) {
+    str = str.split(" ");
+    for (var i = 0, x = str.length; i < x; i++) {
+        str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+    }
+    return str.join(" ");
+}
+
+function capitalUnderscore(str) {
+    str = str.split("_");
+    for (var i = 0, x = str.length; i < x; i++) {
+        str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+    }
+    return str.join(" ");
+}
+
+// object cleaner
+function cleanObject(obj) {
+    for (var propName in obj) {
+        if (!obj[propName]) {
+            delete obj[propName];
+        }
+    }
+}
+
 exports.get = (req, res) => {
     let page = parseInt(req.query.page)
-    Movie.paginate({ }, { page, limit: 10 })
+    Movie.paginate({}, { page, limit: 10 })
         .then(data => {
             success(res, 'success', data, 201)
         })
@@ -24,7 +50,7 @@ exports.create = (req, res) => {
     if (!user.privilege) return failedMessage(res, 'You\'re not admin', 422)
 
     let movie = new Movie({
-        title: req.body.title,
+        title: capitalSpace(req.body.title),
         releaseYear: req.body.releaseYear,
         genre: req.body.genre,
         duration: req.body.duration,
@@ -52,8 +78,7 @@ exports.updateImage = (req, res) => {
             fileName: `IMG-${Date()}`
         })
         .then(async data => {
-            console.log(data);
-            Movie.findOneAndUpdate({ _id: req.params.movieId }, { poster: data.url }, (error, document, result) => {
+            Movie.findOneAndUpdate({ title: capitalUnderscore(req.params.title) }, { poster: data.url }, (error, document, result) => {
                 let newResponse = {
                     ...document._doc,
                     poster: data.url
@@ -66,7 +91,7 @@ exports.updateImage = (req, res) => {
 
 // movie details -> oke
 exports.movieDetails = (req, res) => {
-    Movie.findOne({ _id: req.params.movieId })
+    Movie.findOne({ title: capitalUnderscore(req.params.title) })
         .then(data => {
             if (!data) return failedMessage(res, 'movie not found', 422)
             success(res, 'movie found', data, 200)
@@ -80,7 +105,7 @@ exports.update = (req, res) => {
     if (!user.privilege) return failedMessage(res, 'You\'re not admin', 422)
 
     let updateValue = {
-        title: req.body.title,
+        title: capitalSpace(req.body.title),
         releaseYear: req.body.releaseYear,
         genre: req.body.genre,
         duration: req.body.duration,
@@ -88,19 +113,12 @@ exports.update = (req, res) => {
         synopsis: req.body.synopsis
     }
 
-    function cleanObject(obj) {
-        for (var propName in obj) {
-            if (!obj[propName]) {
-                delete obj[propName];
-            }
-        }
-    }
-    cleanObject(updateValue);
+    cleanObject(updateValue)
 
-    Movie.findOneAndUpdate({ _id: req.params.movieId }, updateValue)
+    Movie.findOneAndUpdate({ title: capitalUnderscore(req.params.title) }, updateValue)
         .then(data => {
             if (!data) return failedMessage(res, 'movie not found', 422)
-            success(res, 'update success', { ...data._doc, updateValue }, 200)
+            success(res, 'update success', { ...data._doc, ...updateValue }, 200)
         })
         .catch(err => failed(res, 'failed', err, 422))
 }
@@ -110,7 +128,7 @@ exports.delete = (req, res) => {
     let user = jwt.verify(req.headers.authorization, process.env.SECRET_KEY)
     if (!user.privilege) return failedMessage(res, 'You\'re not admin', 422)
 
-    Movie.findOneAndDelete({ _id: req.params.movieId })
+    Movie.findOneAndDelete({ title: capitalUnderscore(req.params.title) })
         .then(data => {
             if (!data) return failedMessage(res, 'movie not found', 422)
             success(res, `${data.title} has deleted.`, data, 200)
