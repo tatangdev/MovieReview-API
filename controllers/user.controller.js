@@ -176,7 +176,9 @@ exports.editProfile = (req, res) => {
     let user = jwt.verify(req.headers.authorization, process.env.SECRET_KEY)
     User.findOneAndUpdate({ _id: user._id }, { name: req.body.name })
         .select(['-password'])
-        .then(data => success(res, 'sukses update', { ...data._doc, name: req.body.name }, 200))
+        .then(data => {
+            success(res, 'sukses update', { ...data._doc, name: req.body.name }, 200)
+        })
         .catch(err => failedMessage(res, err, 422))
 }
 
