@@ -1,14 +1,13 @@
 stages:
   - test
   - deploy
+  - announce
 
 test:
   image: node:12.13
   services:
     - mongo:latest
   script:
-    - echo $DB_CONNECTION_TEST
-    - echo $JWT_SIGNATURE_KEY
     - npm install
     - npm test
   only:
@@ -23,3 +22,8 @@ deploy:
     - dpl --provider=heroku --app=$HEROKU_APPNAME --api-key=$HEROKU_APIKEY
   only:
     - master
+
+announce:
+    stage: announce
+    script:
+        - curl --data chat_id=$TELEGRAM_CHAT_ID --data-urlencode text="```**$CI_PROJECT_NAME**\n[$CI_COMMIT_REF_NAME] $CI_COMMIT_TITLE by $GITLAB_USER_NAME```" --data-urlencode parse_mode="markdown" $TELEGRAM_BOT_URL/sendMessage
