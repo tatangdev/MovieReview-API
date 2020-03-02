@@ -4,14 +4,6 @@ const jwt = require('jsonwebtoken');
 const { success, failed, successMessage, failedMessage } = require('../helpers/response');
 
 // capital letter
-function capitalSpace(str) {
-    str = str.split(" ");
-    for (var i = 0, x = str.length; i < x; i++) {
-        str[i] = str[i][0].toUpperCase() + str[i].substr(1);
-    }
-    return str.join(" ");
-}
-
 function capitalUnderscore(str) {
     str = str.split("_");
     for (var i = 0, x = str.length; i < x; i++) {

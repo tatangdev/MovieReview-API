@@ -9,7 +9,7 @@ const imagekitInstance = new Imagekit({
     urlEndpoint: `https://ik.imagekit.io/${process.env.IMAGEKIT_ID}`
 });
 
-// capital letter
+// split string by space
 function capitalSpace(str) {
     str = str.split(" ");
     for (var i = 0, x = str.length; i < x; i++) {
@@ -18,12 +18,22 @@ function capitalSpace(str) {
     return str.join(" ");
 }
 
+// split string by underscore
 function capitalUnderscore(str) {
     str = str.split("_");
     for (var i = 0, x = str.length; i < x; i++) {
         str[i] = str[i][0].toUpperCase() + str[i].substr(1);
     }
     return str.join(" ");
+}
+
+// string to object
+function stringObj(words) {
+    words = words.split(",");
+    for (var i = 0, x = words.length; i < x; i++) {
+        words[i] = words[i][0].toUpperCase() + words[i].substr(1)
+    }
+    return words
 }
 
 // object cleaner
@@ -46,13 +56,14 @@ exports.get = (req, res) => {
 
 // add movie -> oke
 exports.create = (req, res) => {
+    console.log(stringObj(req.body.genre))
     let user = jwt.verify(req.headers.authorization, process.env.SECRET_KEY)
     if (!user.privilege) return failedMessage(res, 'You\'re not admin', 422)
 
     let movie = new Movie({
         title: capitalSpace(req.body.title),
         releaseYear: req.body.releaseYear,
-        genre: req.body.genre,
+        genre: stringObj(req.body.genre),
         duration: req.body.duration,
         trailer: req.body.trailer,
         synopsis: req.body.synopsis
@@ -107,7 +118,7 @@ exports.update = (req, res) => {
     let updateValue = {
         title: capitalSpace(req.body.title),
         releaseYear: req.body.releaseYear,
-        genre: req.body.genre,
+        genre: stringObj(req.body.genre),
         duration: req.body.duration,
         trailer: req.body.trailer,
         synopsis: req.body.synopsis
