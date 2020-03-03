@@ -762,12 +762,103 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Authorization": []
+        }
+      }
+    },
+    "/movie/genre=": {
+      "get": {
+        "tags": [
+          "Movie Collection"
+        ],
+        "summary": "Get movie by genre",
+        "description": "use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/movie/genre=action",
+        "operationId": "get movie by genre",
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
           }
-        ]
+        }
+      }
+    },
+    "/movie/search=": {
+      "get": {
+        "tags": [
+          "Movie Collection"
+        ],
+        "summary": "Search movie by title",
+        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/movie/search=far_from_home",
+        "operationId": "get movie by title",
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/movie/{movie}/updatePoster": {
@@ -1259,12 +1350,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [

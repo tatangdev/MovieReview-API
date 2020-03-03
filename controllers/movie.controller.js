@@ -45,9 +45,30 @@ function cleanObject(obj) {
     }
 }
 
+// get all movie
 exports.get = (req, res) => {
     let page = parseInt(req.query.page)
     Movie.paginate({}, { page, limit: 10 })
+        .then(data => {
+            success(res, 'success', data, 201)
+        })
+        .catch(err => failed(res, 'failed', err, 422))
+}
+
+// get movie by genre
+exports.getByGenre = (req, res) => {
+    let page = parseInt(req.query.page)
+    Movie.paginate({ genre: { $in: [capitalSpace(req.params.genre)] } }, { page, limit: 10 })
+        .then(data => {
+            success(res, 'success', data, 201)
+        })
+        .catch(err => failed(res, 'failed', err, 422))
+}
+
+// get query like
+exports.getLike = (req, res) => {
+    let page = parseInt(req.query.page)
+    Movie.paginate({ title: { $regex: '.*' + capitalUnderscore(req.params.title) + '.*' } }, { page, limit: 10 })
         .then(data => {
             success(res, 'success', data, 201)
         })
@@ -143,6 +164,15 @@ exports.delete = (req, res) => {
         .then(data => {
             if (!data) return failedMessage(res, 'movie not found', 422)
             success(res, `${data.title} has deleted.`, data, 200)
+        })
+        .catch(err => failed(res, 'failed', err, 422))
+}
+
+exports.searchLike = (req, res) => {
+    let page = parseInt(req.query.page)
+    Movie.paginate({ genre }, { page, limit: 10 })
+        .then(data => {
+            success(res, 'success', data, 201)
         })
         .catch(err => failed(res, 'failed', err, 422))
 }

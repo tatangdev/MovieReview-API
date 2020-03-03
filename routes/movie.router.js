@@ -5,6 +5,8 @@ const movie = require('../controllers/movie.controller');
 const validate = require('../middlewares/authenticate')
 
 router.get('/', movie.get)
+router.get('/genre=:genre', movie.getByGenre)
+router.get('/search=:title', movie.getLike)
 router.post('/addMovies', validate, upload, movie.create)
 router.put('/:title/updatePoster', validate, upload, movie.updateImage)
 router.get('/:title', movie.movieDetails)
