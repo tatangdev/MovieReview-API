@@ -4,7 +4,8 @@ const mongoosePaginate = require('mongoose-paginate-v2')
 
 const reviewSchema = new Schema({
     movie: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Movie',
         required: true
     },
     owner: {

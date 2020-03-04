@@ -45,39 +45,8 @@ function cleanObject(obj) {
     }
 }
 
-// get all movie
-exports.get = (req, res) => {
-    let page = parseInt(req.query.page)
-    Movie.paginate({}, { page, limit: 10 })
-        .then(data => {
-            success(res, 'success', data, 201)
-        })
-        .catch(err => failed(res, 'failed', err, 422))
-}
-
-// get movie by genre
-exports.getByGenre = (req, res) => {
-    let page = parseInt(req.query.page)
-    Movie.paginate({ genre: { $in: [capitalSpace(req.params.genre)] } }, { page, limit: 10 })
-        .then(data => {
-            success(res, 'success', data, 201)
-        })
-        .catch(err => failed(res, 'failed', err, 422))
-}
-
-// get query like
-exports.getLike = (req, res) => {
-    let page = parseInt(req.query.page)
-    Movie.paginate({ title: { $regex: '.*' + capitalUnderscore(req.params.title) + '.*' } }, { page, limit: 10 })
-        .then(data => {
-            success(res, 'success', data, 201)
-        })
-        .catch(err => failed(res, 'failed', err, 422))
-}
-
 // add movie -> oke
 exports.create = (req, res) => {
-    console.log(stringObj(req.body.genre))
     let user = jwt.verify(req.headers.authorization, process.env.SECRET_KEY)
     if (!user.privilege) return failedMessage(res, 'You\'re not admin', 422)
 
@@ -102,6 +71,59 @@ exports.create = (req, res) => {
         .catch(err => failed(res, 'failed to add movie', err, 422))
 }
 
+// get all movie -> oke
+exports.get = (req, res) => {
+    let page = parseInt(req.query.page)
+    Movie.paginate({}, { page, limit: 10 })
+        .then(data => {
+            if (!data) return failedMessage(res, 'movie not found', 422)
+            success(res, 'success', data, 201)
+        })
+        .catch(err => failed(res, 'failed', err, 422))
+}
+
+// movie details by id -> oke
+exports.detailsById = (req, res) => {
+    Movie.findOne({ _id: req.params.movie_id })
+        .then(data => {
+            if (!data) return failedMessage(res, 'movie not found', 422)
+            success(res, 'movie found', data, 200)
+        })
+        .catch(err => failed(res, 'ERROR', err, 422))
+}
+
+// movie details by title -> oke
+exports.detailsByTitle = (req, res) => {
+    Movie.findOne({ title: capitalUnderscore(req.params.movie_title) })
+        .then(data => {
+            if (!data) return failedMessage(res, 'movie not found', 422)
+            success(res, 'movie found', data, 200)
+        })
+        .catch(err => failed(res, 'ERROR', err, 422))
+}
+
+// get movie by genre
+exports.getByGenre = (req, res) => {
+    let page = parseInt(req.query.page)
+    Movie.paginate({ genre: { $in: [capitalSpace(req.params.genre)] } }, { page, limit: 10 })
+        .then(data => {
+            if (!data.totalDocs) return failedMessage(res, 'movie not found', 422)
+            success(res, 'success', data, 201)
+        })
+        .catch(err => failed(res, 'failed', err, 422))
+}
+
+// get query like
+exports.getLike = (req, res) => {
+    let page = parseInt(req.query.page)
+    Movie.paginate({ title: { $regex: '.*' + capitalUnderscore(req.params.movie_title) + '.*' } }, { page, limit: 10 })
+        .then(data => {
+            if (!data.totalDocs) return failedMessage(res, 'movie not found', 422)
+            success(res, 'success', data, 201)
+        })
+        .catch(err => failed(res, 'failed', err, 422))
+}
+
 // update movie poster -> oke
 exports.updateImage = (req, res) => {
     imagekitInstance
@@ -110,7 +132,7 @@ exports.updateImage = (req, res) => {
             fileName: `IMG-${Date()}`
         })
         .then(async data => {
-            Movie.findOneAndUpdate({ title: capitalUnderscore(req.params.title) }, { poster: data.url }, (error, document, result) => {
+            Movie.findOneAndUpdate({ _id: req.params.movie_id }, { poster: data.url }, (error, document, result) => {
                 let newResponse = {
                     ...document._doc,
                     poster: data.url
@@ -121,28 +143,11 @@ exports.updateImage = (req, res) => {
         .catch(err => failed(res, 'fail to update poster', err, 422))
 }
 
-// movie details -> oke
-exports.movieDetailsById = (req, res) => {
-    Movie.findOne({ _id: req.params._id })
-        .then(data => {
-            if (!data) return failedMessage(res, 'movie not found', 422)
-            success(res, 'movie found', data, 200)
-        })
-        .catch(err => failed(res, 'ERROR', err, 422))
-}
 
-// movie details -> oke
-exports.movieDetails = (req, res) => {
-    Movie.findOne({ title: capitalUnderscore(req.params.title) })
-        .then(data => {
-            if (!data) return failedMessage(res, 'movie not found', 422)
-            success(res, 'movie found', data, 200)
-        })
-        .catch(err => failed(res, 'ERROR', err, 422))
-}
 
 // update movie detail -> oke
 exports.update = (req, res) => {
+    console.log(req.body.title);
     let user = jwt.verify(req.headers.authorization, process.env.SECRET_KEY)
     if (!user.privilege) return failedMessage(res, 'You\'re not admin', 422)
 
@@ -154,10 +159,12 @@ exports.update = (req, res) => {
         trailer: req.body.trailer,
         synopsis: req.body.synopsis
     }
+    let say = capitalSpace(req.body.title)
+    console.log(`aaaaaa ${say}`);
 
     cleanObject(updateValue)
 
-    Movie.findOneAndUpdate({ title: capitalUnderscore(req.params.title) }, updateValue)
+    Movie.findOneAndUpdate({ _id: req.params.movie_id }, updateValue)
         .then(data => {
             if (!data) return failedMessage(res, 'movie not found', 422)
             success(res, 'update success', { ...data._doc, ...updateValue }, 200)
@@ -170,19 +177,10 @@ exports.delete = (req, res) => {
     let user = jwt.verify(req.headers.authorization, process.env.SECRET_KEY)
     if (!user.privilege) return failedMessage(res, 'You\'re not admin', 422)
 
-    Movie.findOneAndDelete({ title: capitalUnderscore(req.params.title) })
+    Movie.findOneAndDelete({ _id: req.params.movie_id })
         .then(data => {
             if (!data) return failedMessage(res, 'movie not found', 422)
             success(res, `${data.title} has deleted.`, data, 200)
-        })
-        .catch(err => failed(res, 'failed', err, 422))
-}
-
-exports.searchLike = (req, res) => {
-    let page = parseInt(req.query.page)
-    Movie.paginate({ genre }, { page, limit: 10 })
-        .then(data => {
-            success(res, 'success', data, 201)
         })
         .catch(err => failed(res, 'failed', err, 422))
 }

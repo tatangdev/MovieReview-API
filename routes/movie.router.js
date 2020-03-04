@@ -4,14 +4,29 @@ const upload = require('../services/uploader')
 const movie = require('../controllers/movie.controller');
 const validate = require('../middlewares/authenticate')
 
+// create movie
 router.post('/addMovies', validate, upload, movie.create)
-router.get('/', movie.get)
+
+// get all movie
+// router.get('/', movie.get)
+
+// get movie by genre
 router.get('/genre=:genre', movie.getByGenre)
-router.get('/:_id', movie.movieDetailsById)
-router.get('/search=:title', movie.getLike)
-router.get('/title=:title', movie.movieDetails)
-router.put('/:title/updatePoster', validate, upload, movie.updateImage)
-router.put('/:title', validate, movie.update)
-router.delete('/:title', validate, movie.delete)
+
+// get movie details
+router.get('/id=:movie_id', movie.detailsById)
+router.get('/title=:movie_title', movie.detailsByTitle)
+
+// search movie 
+router.get('/search=:movie_title', movie.getLike)
+
+// update poster
+router.put('/:movie_id/updatePoster', validate, upload, movie.updateImage)
+
+// update review
+router.put('/:movie_id', validate, movie.update)
+
+// delete review
+router.delete('/:movie_id', validate, movie.delete)
 
 module.exports = router;

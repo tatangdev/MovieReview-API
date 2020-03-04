@@ -765,13 +765,13 @@
         }
       }
     },
-    "/movie/{movieId}": {
+    "/movie/id={movieId}": {
       "get": {
         "tags": [
           "Movie Collection"
         ],
-        "summary": "Get movie details by title",
-        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/movie/far_from_home",
+        "summary": "Get movie details by movie id",
+        "description": "",
         "operationId": "movieDetails",
         "parameters": [
           {
@@ -823,22 +823,21 @@
         }
       }
     },
-    "/movie/id={movieId}": {
+    "/movie/title={movie}": {
       "get": {
         "tags": [
           "Movie Collection"
         ],
-        "summary": "Get movie details by movie id",
-        "description": "",
+        "summary": "Get movie details by movie title",
+        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/movie/far_from_home",
         "operationId": "movieDetailsbyId",
         "parameters": [
           {
-            "name": "movieId",
+            "name": "movie",
             "in": "path",
             "description": "movie title",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "responses": {
@@ -895,8 +894,7 @@
             "in": "path",
             "description": "movie genre",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "responses": {
@@ -953,8 +951,7 @@
             "in": "path",
             "description": "movie title",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "responses": {
@@ -997,7 +994,7 @@
         }
       }
     },
-    "/movie/{movie}/updatePoster": {
+    "/movie/{movieId}/updatePoster": {
       "put": {
         "tags": [
           "Movie Collection"
@@ -1013,7 +1010,7 @@
         ],
         "parameters": [
           {
-            "name": "movie",
+            "name": "movieId",
             "in": "path",
             "description": "movie title",
             "required": true,
@@ -1073,7 +1070,7 @@
         ]
       }
     },
-    "/movie/{movie}": {
+    "/movie/{movieId}": {
       "put": {
         "tags": [
           "Movie Collection"
@@ -1089,7 +1086,7 @@
         ],
         "parameters": [
           {
-            "name": "movie",
+            "name": "movieId",
             "in": "path",
             "description": "movie title",
             "required": true,
@@ -1165,7 +1162,7 @@
         ],
         "parameters": [
           {
-            "name": "movie",
+            "name": "movieId",
             "in": "path",
             "description": "movie title",
             "required": true,
@@ -1218,7 +1215,7 @@
         ]
       }
     },
-    "/review/{movie}": {
+    "/review/{movieId}": {
       "post": {
         "tags": [
           "Review Collection"
@@ -1234,7 +1231,7 @@
         ],
         "parameters": [
           {
-            "name": "movie",
+            "name": "movieId",
             "in": "path",
             "description": "movie tile",
             "required": true,
@@ -1310,7 +1307,7 @@
         ],
         "parameters": [
           {
-            "name": "movie",
+            "name": "movieId",
             "in": "path",
             "description": "movie tile",
             "required": true,
@@ -1381,7 +1378,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "movie",
+            "name": "movieId",
             "description": "movie tile",
             "required": true,
             "type": "integer",
@@ -1442,7 +1439,7 @@
         ],
         "parameters": [
           {
-            "name": "movie",
+            "name": "movieId",
             "in": "path",
             "description": "movie tile",
             "required": true,
