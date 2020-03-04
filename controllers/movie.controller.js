@@ -122,6 +122,16 @@ exports.updateImage = (req, res) => {
 }
 
 // movie details -> oke
+exports.movieDetailsById = (req, res) => {
+    Movie.findOne({ _id: req.params._id })
+        .then(data => {
+            if (!data) return failedMessage(res, 'movie not found', 422)
+            success(res, 'movie found', data, 200)
+        })
+        .catch(err => failed(res, 'ERROR', err, 422))
+}
+
+// movie details -> oke
 exports.movieDetails = (req, res) => {
     Movie.findOne({ title: capitalUnderscore(req.params.title) })
         .then(data => {
