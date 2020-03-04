@@ -8,7 +8,7 @@ const validate = require('../middlewares/authenticate')
 router.post('/addMovies', validate, upload, movie.create)
 
 // get all movie
-// router.get('/', movie.get)
+router.get('/', movie.get)
 
 // get movie by genre
 router.get('/genre=:genre', movie.getByGenre)

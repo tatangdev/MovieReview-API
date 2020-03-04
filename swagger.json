@@ -172,8 +172,7 @@
             "in": "path",
             "description": "token of user",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "responses": {
@@ -363,8 +362,7 @@
             "in": "path",
             "description": "token of user",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           },
           {
             "in": "body",
@@ -779,8 +777,7 @@
             "in": "path",
             "description": "movie title",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "responses": {
@@ -1014,8 +1011,7 @@
             "in": "path",
             "description": "movie title",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           },
           {
             "name": "image",
@@ -1090,8 +1086,7 @@
             "in": "path",
             "description": "movie title",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           },
           {
             "in": "body",
@@ -1166,8 +1161,7 @@
             "in": "path",
             "description": "movie title",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "responses": {
@@ -1235,8 +1229,7 @@
             "in": "path",
             "description": "movie tile",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           },
           {
             "in": "body",
@@ -1311,8 +1304,7 @@
             "in": "path",
             "description": "movie tile",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           },
           {
             "in": "body",
@@ -1381,8 +1373,7 @@
             "name": "movieId",
             "description": "movie tile",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "responses": {
@@ -1441,10 +1432,9 @@
           {
             "name": "movieId",
             "in": "path",
-            "description": "movie tile",
+            "description": "movie id",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "responses": {
