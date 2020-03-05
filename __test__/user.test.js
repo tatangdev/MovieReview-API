@@ -118,8 +118,13 @@ describe('USER', () => {
         })
         .end((err, res) => {
             console.log(res.status)
-            expected(res.status).eql(201)
+            expected(res.status).eql(422)
             done();
         })
     })
+    // it('user profile', done => {
+    //     chai.request(app)
+    //     .put('/api/user/editProfile')
+    //     .set('Authorization', ve)
+    // })
 })

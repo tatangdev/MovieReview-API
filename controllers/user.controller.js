@@ -85,6 +85,7 @@ exports.activation = (req, res) => {
             success(res, 'Your email is verified now.', data, 201)
         })
         .catch(err => failedMessage(res, err, 422))
+        console.log(res)
 }
 
 // login user
