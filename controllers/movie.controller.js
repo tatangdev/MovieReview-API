@@ -122,7 +122,17 @@ exports.detailsById = (req, res) => {
             }
         },
     ]).then(result => {
-        return res.status(200).json({ result: result })
+        // let info = result[0]._id.movie_detail
+        // let avgRating = result[0]._id.ratingAverage
+        // success(res, 'oke', { ...info, rating: avgRating }, 200)
+        // success(res, 'oke', info, 200)
+        return success(res, 'success get details movie', {
+            ...{
+                movie_details: result[0]._id.movie_detail,
+                ...{ movie_rating: result[0]._id.ratingAverage },
+                ...{ movie_reviews: result[0]._id.ratings_detail }
+            }
+        }, 200)
     }).catch(err => {
         return res.status(500).json({ err: err })
     })

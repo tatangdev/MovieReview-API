@@ -33,7 +33,7 @@ exports.getMyReview = (req, res) => {
     let user = jwt.verify(req.headers.authorization, process.env.SECRET_KEY)
 
     let page = parseInt(req.query.page)
-    Review.paginate({ owner: user._id }, { page, limit: 10 })
+    Review.paginate({ owner: user._id }, { page, limit: 10, populate: 'owner' })
         .then(data => {
             if (!data) return failedMessage(res, 'Can\'t find review', 422)
             success(res, 'success', data, 201)
@@ -44,7 +44,7 @@ exports.getMyReview = (req, res) => {
 // get review by movie
 exports.getReviewByMovie = (req, res) => {
     let page = parseInt(req.query.page)
-    Review.paginate({ movie: req.params.movie_id }, { page, limit: 10 })
+    Review.paginate({ movie: req.params.movie_id }, { page, limit: 10, populate: 'owner' })
         .then(data => {
             if (!data) return failedMessage(res, 'Can\'t find review', 422)
             success(res, 'success', data, 201)
@@ -60,8 +60,10 @@ exports.updateReview = (req, res) => {
         title: req.body.title,
         description: req.body.description
     }
+    console.log(`${req.params.movie_id} dan ${user._id}`);
     Review.findOneAndUpdate({ movie: req.params.movie_id, owner: user._id }, update)
         .then(data => {
+            console.log(data);
             if (!data) return failedMessage(res, 'Can\'t find review', 422)
             success(res, 'review updated', { ...data._doc, ...update }, 200)
         })
