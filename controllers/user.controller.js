@@ -85,6 +85,7 @@ exports.activation = (req, res) => {
             success(res, 'Your email is verified now.', data, 201)
         })
         .catch(err => failedMessage(res, err, 422))
+        console.log(res)
 }
 
 // login user
@@ -176,7 +177,9 @@ exports.editProfile = (req, res) => {
     let user = jwt.verify(req.headers.authorization, process.env.SECRET_KEY)
     User.findOneAndUpdate({ _id: user._id }, { name: req.body.name })
         .select(['-password'])
-        .then(data => success(res, 'sukses update', { ...data._doc, name: req.body.name }, 200))
+        .then(data => {
+            success(res, 'sukses update', { ...data._doc, name: req.body.name }, 200)
+        })
         .catch(err => failedMessage(res, err, 422))
 }
 

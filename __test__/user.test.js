@@ -12,6 +12,7 @@ var testName = 'Reza Nirvana Pratama';
 var testEmail = 'ezanirvana@gmail.com';
 var testPassword = bcrypt.hashSync('12345', 10);
 var token;
+var verifyToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTViY2QzZWI0NDg2YzVkNDg5NDQyMWEiLCJwcml2aWxlZ2UiOmZhbHNlLCJpYXQiOjE1ODMwNzQ5NDd9.aJSKI_O0fViMk5Btz2BrWLqDsuo1UzahgJ4gJ-vau_E';
 
 describe('USER', () => {
     before(done => {
@@ -94,18 +95,36 @@ describe('USER', () => {
                 done()
             })
     });
-    // it('reset password', done => {
+    it('reset password', done => {
+        chai.request(app)
+        .put(`/api/user/resetPassword/${token}`)
+        .send({
+            password: 'newpassword',
+            password_confirmation: 'newpassword'
+        })
+        .end((err, res) => {
+            token = res.body.data.token;
+            password = res.body.password;
+            expected(res.status).eql(201)
+            done();
+        })
+    })
+    it('edit profile', done => {
+        chai.request(app)
+        .put('/api/user/updateProfile')
+        .set('Authorization', verifyToken)
+        .send({
+            name: 'new name'
+        })
+        .end((err, res) => {
+            console.log(res.status)
+            expected(res.status).eql(422)
+            done();
+        })
+    })
+    // it('user profile', done => {
     //     chai.request(app)
-    //     .post(`/api/user/resetPassword/${token}`)
-    //     .send({
-    //         password: 'newpassword'
-    //     })
-    //     .end((err, res) => {
-    //         token = res.body.data;
-    //         password = res.body.password;
-    //         console.log(password)
-    //         expected(res.status).eql(201)
-    //         done;
-    //     })
+    //     .put('/api/user/editProfile')
+    //     .set('Authorization', ve)
     // })
 })
