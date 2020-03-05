@@ -122,10 +122,6 @@ exports.detailsById = (req, res) => {
             }
         },
     ]).then(result => {
-        // let info = result[0]._id.movie_detail
-        // let avgRating = result[0]._id.ratingAverage
-        // success(res, 'oke', { ...info, rating: avgRating }, 200)
-        // success(res, 'oke', info, 200)
         return success(res, 'success get details movie', {
             ...{
                 movie_details: result[0]._id.movie_detail,
@@ -136,12 +132,6 @@ exports.detailsById = (req, res) => {
     }).catch(err => {
         return res.status(500).json({ err: err })
     })
-    // Movie.findOne({ _id: req.params.movie_id })
-    //     .then(data => {
-    //         if (!data) return failedMessage(res, 'movie not found', 422)
-    //         success(res, 'movie found', data, 200)
-    //     })
-    //     .catch(err => failed(res, 'ERROR', err, 422))
 }
 
 // update movie poster -> oke
@@ -152,7 +142,7 @@ exports.updateImage = (req, res) => {
             fileName: `IMG-${Date()}`
         })
         .then(async data => {
-            Movie.findOneAndUpdate({ _id: req.params.movie_id }, { poster: data.url }, (error, document, result) => {
+            return Movie.findOneAndUpdate({ _id: req.params.movie_id }, { poster: data.url }, (error, document, result) => {
                 let newResponse = {
                     ...document._doc,
                     poster: data.url
@@ -162,8 +152,6 @@ exports.updateImage = (req, res) => {
         })
         .catch(err => failed(res, 'fail to update poster', err, 422))
 }
-
-
 
 // update movie detail -> oke
 exports.update = (req, res) => {
@@ -269,7 +257,12 @@ exports.result = (req, res, next) => {
                 ],
             },
         }
-    ]).then(result => {
+    ]).then(data => {
+        let objArray = data[0].edges
+        let result = objArray.map(({ _id }) => _id)
+            
+        return success(res, 'success get movies', result, 200)
+
         return res.status(200).json({ result: result })
     }).catch(err => {
         return res.status(500).json({ err: err })
