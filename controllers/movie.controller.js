@@ -121,8 +121,8 @@ exports.detailsById = (req, res) => {
                 },
             }
         },
-    ]).then(resulst => {
-        return res.status(200).json({ resulst: resulst })
+    ]).then(result => {
+        return res.status(200).json({ result: result })
     }).catch(err => {
         return res.status(500).json({ err: err })
     })
@@ -259,8 +259,8 @@ exports.result = (req, res, next) => {
                 ],
             },
         }
-    ]).then(resulst => {
-        return res.status(200).json({ resulst: resulst })
+    ]).then(result => {
+        return res.status(200).json({ result: result })
     }).catch(err => {
         return res.status(500).json({ err: err })
     })
