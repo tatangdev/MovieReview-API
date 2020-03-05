@@ -13,7 +13,7 @@ const reviewSchema = new Schema({
         ref: 'User',
         required: true
     },
-    rate: {
+    rating: {
         type: Number,
         required: true,
         min: 1,

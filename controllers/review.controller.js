@@ -9,18 +9,23 @@ exports.createReview = async (req, res) => {
     let review = new Review({
         movie: req.params.movie_id,
         owner: user._id,
-        rate: req.body.rate,
+        rating: req.body.rating,
         title: req.body.title,
         description: req.body.description
     })
 
-    Review.findOne({ movie: review.movie, owner: user._id })
+    Review.findOne({ movie: req.params.movie_id, owner: user._id })
         .then(data => {
-            if (data) return failedMessage(res, 'You are already reviewing this film', 422)
-            return Review.create(review)
+            if (data) return failedMessage(res, 'kamu sudah review ini', 422)
+            Movie.update({ _id: req.params.movie_id }, { $push: { ratings: review._id } })
+                .then(data2 => {
+                    if (!data2.nModified) return failedMessage(res, 'can\'t create review, movie not found', 422)
+                    return Review.create(review)
+                })
+                .then(result => success(res, 'review created', result, 422))
+                .catch(err => failed(res, 'can\'t create review', err, 422))
         })
-        .then(result => success(res, 'success added review', result, 201))
-        .catch(err => failed(res, 'failed add review', err, 422))
+        .catch(err => failed(res, 'can\'t create review', err, 422))
 }
 
 // get my review
@@ -51,7 +56,7 @@ exports.getReviewByMovie = (req, res) => {
 exports.updateReview = (req, res) => {
     let user = jwt.verify(req.headers.authorization, process.env.SECRET_KEY)
     let update = {
-        rate: req.body.rate,
+        rating: req.body.rating,
         title: req.body.title,
         description: req.body.description
     }

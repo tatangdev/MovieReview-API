@@ -17,11 +17,11 @@
     },
     {
       "name": "Movie Collection",
-      "description": "Info for users API"
+      "description": "Info for movies API"
     },
     {
       "name": "Review Collection",
-      "description": "Info for users API"
+      "description": "Info for reviews API"
     }
   ],
   "paths": {
@@ -721,7 +721,7 @@
           "Movie Collection"
         ],
         "summary": "Get movie",
-        "description": "",
+        "description": "query can be one of the following\n?page=1\n?page=1&field=genre&value=action\n?page=1&field=title&value=spiderman\n\nvalue query can be anything user input",
         "operationId": "getMovie",
         "responses": {
           "200": {
@@ -760,235 +760,27 @@
               }
             }
           }
-        }
-      }
-    },
-    "/movie/id={movieId}": {
-      "get": {
-        "tags": [
-          "Movie Collection"
-        ],
-        "summary": "Get movie details by movie id",
-        "description": "",
-        "operationId": "movieDetails",
+        },
         "parameters": [
           {
-            "name": "movieId",
-            "in": "path",
-            "description": "movie title",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "if the email registered, we will sent you email",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string"
-                },
-                "data": {
-                  "type": "object"
-                }
-              }
-            }
+            "type": "string",
+            "in": "query",
+            "name": "page",
+            "description": "number from 1 to n"
           },
-          "422": {
-            "description": "ERROR",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "message": {
-                  "type": "string"
-                },
-                "errors": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/movie/title={movie}": {
-      "get": {
-        "tags": [
-          "Movie Collection"
-        ],
-        "summary": "Get movie details by movie title",
-        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/movie/far_from_home",
-        "operationId": "movieDetailsbyId",
-        "parameters": [
           {
-            "name": "movie",
-            "in": "path",
-            "description": "movie title",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "if the email registered, we will sent you email",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string"
-                },
-                "data": {
-                  "type": "object"
-                }
-              }
-            }
+            "type": "string",
+            "in": "query",
+            "name": "field",
+            "description": "could be title or genre"
           },
-          "422": {
-            "description": "ERROR",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "message": {
-                  "type": "string"
-                },
-                "errors": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/movie/genre={genre}": {
-      "get": {
-        "tags": [
-          "Movie Collection"
-        ],
-        "summary": "Get movie by genre",
-        "description": "use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/movie/genre=action",
-        "operationId": "get movie by genre",
-        "parameters": [
           {
-            "name": "genre",
-            "in": "path",
-            "description": "movie genre",
-            "required": true,
-            "type": "string"
+            "type": "string",
+            "in": "query",
+            "name": "value",
+            "description": ""
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "success",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string"
-                },
-                "data": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "ERROR",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "message": {
-                  "type": "string"
-                },
-                "errors": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/movie/search={movie}": {
-      "get": {
-        "tags": [
-          "Movie Collection"
-        ],
-        "summary": "Search movie by title",
-        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/movie/search=far_from_home",
-        "operationId": "get movie by title",
-        "parameters": [
-          {
-            "name": "movie",
-            "in": "path",
-            "description": "movie title",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "success",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "message": {
-                  "type": "string"
-                },
-                "data": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "ERROR",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "boolean",
-                  "example": false
-                },
-                "message": {
-                  "type": "string"
-                },
-                "errors": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
+        ]
       }
     },
     "/movie/{movieId}/updatePoster": {
@@ -997,7 +789,7 @@
           "Movie Collection"
         ],
         "summary": "update movie poster",
-        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/movie/far_from_home/updatePoster",
+        "description": "",
         "operationId": "updatePoster",
         "consumes": [
           "multipart/form-data"
@@ -1009,7 +801,7 @@
           {
             "name": "movieId",
             "in": "path",
-            "description": "movie title",
+            "description": "",
             "required": true,
             "type": "string"
           },
@@ -1067,12 +859,67 @@
       }
     },
     "/movie/{movieId}": {
+      "get": {
+        "tags": [
+          "Movie Collection"
+        ],
+        "summary": "Get movie details by movie id",
+        "description": "",
+        "operationId": "movieDetails",
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the email registered, we will sent you email",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "ERROR",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string"
+                },
+                "errors": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
       "put": {
         "tags": [
           "Movie Collection"
         ],
         "summary": "Update movie details",
-        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/movie/far_from_home",
+        "description": "",
         "operationId": "updateMovie",
         "consumes": [
           "application/json"
@@ -1084,7 +931,7 @@
           {
             "name": "movieId",
             "in": "path",
-            "description": "movie title",
+            "description": "",
             "required": true,
             "type": "string"
           },
@@ -1147,7 +994,7 @@
           "Movie Collection"
         ],
         "summary": "delete movies",
-        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/movie/far_from_home",
+        "description": "",
         "operationId": "deleteMovie",
         "consumes": [
           "multipart/form-data"
@@ -1159,7 +1006,7 @@
           {
             "name": "movieId",
             "in": "path",
-            "description": "movie title",
+            "description": "",
             "required": true,
             "type": "string"
           }
@@ -1215,7 +1062,7 @@
           "Review Collection"
         ],
         "summary": "Create review",
-        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/review/far_from_home",
+        "description": "",
         "operationId": "create review",
         "consumes": [
           "application/json"
@@ -1227,7 +1074,7 @@
           {
             "name": "movieId",
             "in": "path",
-            "description": "movie tile",
+            "description": "",
             "required": true,
             "type": "string"
           },
@@ -1290,7 +1137,7 @@
           "Review Collection"
         ],
         "summary": "Update review",
-        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/review/far_from_home",
+        "description": "",
         "operationId": "update review",
         "consumes": [
           "application/json"
@@ -1302,7 +1149,7 @@
           {
             "name": "movieId",
             "in": "path",
-            "description": "movie tile",
+            "description": "",
             "required": true,
             "type": "string"
           },
@@ -1365,13 +1212,13 @@
           "Review Collection"
         ],
         "summary": "Get review by movie",
-        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/review/far_from_home",
+        "description": "",
         "operationId": "get review",
         "parameters": [
           {
             "in": "path",
             "name": "movieId",
-            "description": "movie tile",
+            "description": "",
             "required": true,
             "type": "string"
           }
@@ -1420,7 +1267,7 @@
           "Review Collection"
         ],
         "summary": "Delete review",
-        "description": "words separated by underscores, use only lowercase letters, (example: https://gamovieapp.herokuapp.com/api/review/far_from_home",
+        "description": "",
         "operationId": "delete review",
         "consumes": [
           "application/json"
@@ -1432,7 +1279,7 @@
           {
             "name": "movieId",
             "in": "path",
-            "description": "movie id",
+            "description": "",
             "required": true,
             "type": "string"
           }
@@ -1610,17 +1457,12 @@
     },
     "review": {
       "type": "object",
-      "required": [
-        "rate",
-        "title",
-        "description"
-      ],
       "properties": {
         "title": {
           "type": "string",
           "example": "Surprised at high reviews"
         },
-        "rate": {
+        "rating": {
           "type": "number",
           "example": 7
         },
@@ -1628,7 +1470,12 @@
           "type": "string",
           "example": "I was looking forward to this due to the high ratings and that I like the lead actors. However felt it was a poor story, fairly predictable, slightly cringeworthy acting, I kept hoping it would improve but was disappointed"
         }
-      }
+      },
+      "required": [
+        "title",
+        "rating",
+        "description"
+      ]
     },
     "movieTitle": {
       "type": "string",

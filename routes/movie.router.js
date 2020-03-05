@@ -8,17 +8,9 @@ const validate = require('../middlewares/authenticate')
 router.post('/addMovies', validate, upload, movie.create)
 
 // get all movie
-router.get('/', movie.get)
-
-// get movie by genre
-router.get('/genre=:genre', movie.getByGenre)
-
-// get movie details
-router.get('/id=:movie_id', movie.detailsById)
-router.get('/title=:movie_title', movie.detailsByTitle)
-
-// search movie 
-router.get('/search=:movie_title', movie.getLike)
+router.get('/', movie.result)
+// get all movie
+router.get('/:id', movie.detailsById)
 
 // update poster
 router.put('/:movie_id/updatePoster', validate, upload, movie.updateImage)

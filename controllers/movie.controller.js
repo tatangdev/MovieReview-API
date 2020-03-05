@@ -2,6 +2,7 @@ const Movie = require('../models/movie.schema');
 const jwt = require('jsonwebtoken');
 const { success, failed, successMessage, failedMessage } = require('../helpers/response');
 const Imagekit = require('imagekit');
+const mongoose = require('mongoose');
 
 const imagekitInstance = new Imagekit({
     publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
@@ -84,44 +85,53 @@ exports.get = (req, res) => {
 
 // movie details by id -> oke
 exports.detailsById = (req, res) => {
-    Movie.findOne({ _id: req.params.movie_id })
-        .then(data => {
-            if (!data) return failedMessage(res, 'movie not found', 422)
-            success(res, 'movie found', data, 200)
-        })
-        .catch(err => failed(res, 'ERROR', err, 422))
-}
-
-// movie details by title -> oke
-exports.detailsByTitle = (req, res) => {
-    Movie.findOne({ title: capitalUnderscore(req.params.movie_title) })
-        .then(data => {
-            if (!data) return failedMessage(res, 'movie not found', 422)
-            success(res, 'movie found', data, 200)
-        })
-        .catch(err => failed(res, 'ERROR', err, 422))
-}
-
-// get movie by genre
-exports.getByGenre = (req, res) => {
-    let page = parseInt(req.query.page)
-    Movie.paginate({ genre: { $in: [capitalSpace(req.params.genre)] } }, { page, limit: 10 })
-        .then(data => {
-            if (!data.totalDocs) return failedMessage(res, 'movie not found', 422)
-            success(res, 'success', data, 201)
-        })
-        .catch(err => failed(res, 'failed', err, 422))
-}
-
-// get query like
-exports.getLike = (req, res) => {
-    let page = parseInt(req.query.page)
-    Movie.paginate({ title: { $regex: '.*' + capitalUnderscore(req.params.movie_title) + '.*' } }, { page, limit: 10 })
-        .then(data => {
-            if (!data.totalDocs) return failedMessage(res, 'movie not found', 422)
-            success(res, 'success', data, 201)
-        })
-        .catch(err => failed(res, 'failed', err, 422))
+    Movie.aggregate([
+        {
+            $match: {
+                _id: { $eq: mongoose.mongo.ObjectID(req.params.id) }
+            }
+        },
+        {
+            $group: {
+                _id: {
+                    _id: `$_id`,
+                    ratings: `$ratings`
+                },
+            }
+        }, {
+            $lookup: {
+                from: 'movies',
+                localField: "_id._id",
+                foreignField: '_id',
+                as: 'movie_detail'
+            }
+        }, {
+            $lookup: {
+                from: 'reviews',
+                localField: "_id.ratings",
+                foreignField: '_id',
+                as: 'review_detail'
+            }
+        }, {
+            $group: {
+                _id: {
+                    movie_detail: `$movie_detail`,
+                    ratings_detail: `$review_detail`,
+                    ratingAverage: { $avg: "$review_detail.rating" }
+                },
+            }
+        },
+    ]).then(resulst => {
+        return res.status(200).json({ resulst: resulst })
+    }).catch(err => {
+        return res.status(500).json({ err: err })
+    })
+    // Movie.findOne({ _id: req.params.movie_id })
+    //     .then(data => {
+    //         if (!data) return failedMessage(res, 'movie not found', 422)
+    //         success(res, 'movie found', data, 200)
+    //     })
+    //     .catch(err => failed(res, 'ERROR', err, 422))
 }
 
 // update movie poster -> oke
@@ -183,4 +193,75 @@ exports.delete = (req, res) => {
             success(res, `${data.title} has deleted.`, data, 200)
         })
         .catch(err => failed(res, 'failed', err, 422))
+}
+
+exports.result = (req, res, next) => {
+    const {
+        field,
+        value
+    } = req.query;
+    let page = parseInt(req.query.page)
+    let skip = 0
+    const limit = 10
+    if (page > 1) {
+        skip = (page - 1) * limit
+    }
+    let query = {}
+    if (field == "genre" && value != "") {
+        query = {
+            [field]: { $in: [capitalSpace(value)] }
+        }
+    } else if (field == "title" && value != "") {
+        query = {
+            [field]: { $regex: '.*' + capitalUnderscore(value) + '.*' }
+        }
+    }
+    Movie.aggregate([
+        {
+            $match: query
+        },
+        {
+            $group: {
+                _id: {
+                    _id: `$_id`,
+                    ratings: `$ratings`
+                },
+            }
+        }, {
+            $lookup: {
+                from: 'movies',
+                localField: "_id._id",
+                foreignField: '_id',
+                as: 'movie_detail'
+            }
+        }, {
+            $lookup: {
+                from: 'reviews',
+                localField: "_id.ratings",
+                foreignField: '_id',
+                as: 'review_detail'
+            }
+        }, {
+            $group: {
+                _id: {
+                    movie_detail: `$movie_detail`,
+                    ratingAverage: { $avg: "$review_detail.rating" }
+                },
+            }
+        }, {
+            $facet: {
+                edges: [
+                    { $skip: skip },
+                    { $limit: limit },
+                ],
+                pageInfo: [
+                    { $group: { _id: null, count: { $sum: 1 } } },
+                ],
+            },
+        }
+    ]).then(resulst => {
+        return res.status(200).json({ resulst: resulst })
+    }).catch(err => {
+        return res.status(500).json({ err: err })
+    })
 }

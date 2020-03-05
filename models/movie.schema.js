@@ -14,7 +14,7 @@ const movieSchema = new Schema({
     genre: {
         type: Array,
         required: true,
-        default:[]
+        default: []
     },
     duration: {
         type: Number
@@ -28,6 +28,13 @@ const movieSchema = new Schema({
     synopsis: {
         type: String,
         required: true
+    },
+    ratings: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Review'
+    }],
+    rating: {
+        type: Number
     }
 }, {
     timestamps: true
